@@ -1,9 +1,18 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { ArticleDetails, CreateArticle, Search, Home, Login, Navbar, SignUp, UpdateArticle, ArticlesPage, Profile } from './components'
 import { Route, Routes } from 'react-router-dom'
 import { getUserAPI } from './service/api'
 import { setIsAuthenticated, setUser } from './slices/authSlice'
+import Home from './components/home'
+import ArticlesPage from './components/ArticlesPage'
+import ArticleDetails from './components/ArticleDetails'
+import Login from './components/Login'
+import SignUp from './components/SignUp'
+import CreateArticle from './components/CreateArticle'
+import UpdateArticle from './components/UpdateArticle'
+import Search from './components/Search'
+import Profile from './components/Profile'
+import Navbar from './components/Navbar'
 
 const App = () => {
   const dispatch = useDispatch()
