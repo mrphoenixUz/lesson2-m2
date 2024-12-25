@@ -5,7 +5,7 @@ import useFetch from '../hooks/useFetch'
 import { setError, setLoading, setArticles } from '../slices/articlesSlice'
 import { CircularProgress } from '@mui/material'
 import SearchForm from './SearchForm'
-const Home = () => {
+const Homee = () => {
   const { data, loading, error } = useFetch("/api/articles/")
   const dispatch = useDispatch()
 
@@ -27,4 +27,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Homee

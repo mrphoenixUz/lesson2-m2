@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 import { getUserAPI } from './service/api'
 import { setIsAuthenticated, setUser } from './slices/authSlice'
-import Home from './components/home'
 import ArticlesPage from './components/ArticlesPage'
 import ArticleDetails from './components/ArticleDetails'
 import Login from './components/Login'
@@ -13,6 +12,7 @@ import UpdateArticle from './components/UpdateArticle'
 import Search from './components/Search'
 import Profile from './components/Profile'
 import Navbar from './components/Navbar'
+import Homee from './components/Homee'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -37,7 +37,7 @@ const App = () => {
     <div className='dark:bg-black max-lg:pb-20 min-h-screen dark:text-white'>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Homee />} />
         <Route path='/articles' element={<ArticlesPage />} />
         <Route path='/articles/:id' element={<ArticleDetails />} />
         <Route path='/login' element={<Login />} />
