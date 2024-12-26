@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react'
 import Articles from './Articles'
 import { useDispatch, useSelector } from 'react-redux'
-import useFetch from '../hooks/useFetch'
 import { setError, setLoading, setArticles } from '../slices/articlesSlice'
 import { CircularProgress } from '@mui/material'
 import SearchForm from './SearchForm'
-const Homee = () => {
-  const { data, loading, error } = useFetch("/api/articles/")
+import { useGetArticlesQuery } from '../service/api'
+const Home = () => {
+  const { data, isLoading, error } = useGetArticlesQuery()
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(setError(error))
-    dispatch(setLoading(loading))
+    dispatch(setLoading(isLoading))
     dispatch(setArticles(data))
-  }, [data, loading, error])
+  }, [data, isLoading, error])
   const { articles } = useSelector(state => state.articles)
   
   return (
     <div>
       <SearchForm />
-      {loading && <div className='flex justify-center py-20 text-5xl'>
+      {isLoading && <div className='flex justify-center py-20 text-5xl'>
         <CircularProgress color="inherit" />
       </div>}
       {articles && <Articles articles={[...articles].reverse()} />}
@@ -27,4 +27,4 @@ const Homee = () => {
   )
 }
 
-export default Homee
+export default Home

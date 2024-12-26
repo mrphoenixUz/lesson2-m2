@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const NewsCard = ({ article }) => {
@@ -13,6 +14,7 @@ const NewsCard = ({ article }) => {
         />
       </Link>
       <CardContent>
+        <p className='mb-2 opacity-50 text-sm'>{article.author}</p>
         <Link to={`/articles/${article.id}`}>
           <Typography className='line-clamp-2 ' gutterBottom variant="h5" component="div">
             {article.title}
