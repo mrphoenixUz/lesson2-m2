@@ -8,6 +8,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import InputFileUpload from './UploadImage';
+import { useUpdateProfileMutation } from '../service/api';
 
 const style = {
     position: 'absolute',
@@ -49,6 +50,7 @@ export default function BasicModal() {
         setFormData((prev) => ({ ...prev, gender: e.target.value }));
     };
 
+    const [updateProfile] = useUpdateProfileMutation()
     const handleSubmit = async () => {
         const token = localStorage.getItem('token');
         const data = new FormData();
@@ -57,24 +59,8 @@ export default function BasicModal() {
         });
 
         try {
-            const response = await fetch(
-                'https://mustafocoder.pythonanywhere.com/auth/update-profile/',
-                {
-                    method: 'PUT',
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
-                    body: data,
-                }
-            );
-
-            if (response.ok) {
-                alert('Profile updated successfully');
-                handleClose();
-            } else {
-                const error = await response.json();
-                alert(`Error: ${error.message || 'Failed to update profile'}`);
-            }
+            const response = await updateProfile(data)
+            
         } catch (error) {
             alert(`Error: ${error.message}`);
         }

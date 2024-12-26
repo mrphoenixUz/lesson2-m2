@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createArticleAPI } from '../service/api';
+import { useCreateArticleMutation } from '../service/api';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
@@ -9,38 +9,40 @@ import { LoadingButton } from '@mui/lab';
 
 const CreateArticle = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false)
-  const { user, isAuthenticated } = useSelector(state => state.auth)
-  const navigate = useNavigate()
+    const [error, setError] = useState(false);
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+    const [createArticle] = useCreateArticleMutation();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/')
-    }
-  }, [isAuthenticated])
-  const formSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const body = {
-      author: user.username
-    }
-    const formData = new FormData(e.target)
-    formData.forEach((val, key) => {
-      body[key] = val
-    })
-    const token = localStorage.getItem("token")
-    try {
-      const res = await createArticleAPI(body, token)
-      console.log(res);
-      setError(false)
-      navigate(`/articles/${res.id}`)
-    } catch (error) {
-      setError(true)
-      console.log(error);
-    } finally {
-      setLoading(false)
-    }
-  }
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/");
+        }
+    }, [isAuthenticated, navigate]);
+
+    const formSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        formData.append("author", user.username);
+
+        setLoading(true);
+        try {
+            const res = await createArticle({ body: formData }).unwrap();
+            console.log(res);
+            setError(false);
+            navigate(`/articles/${res.id}`);
+        } catch (error) {
+            setError(true);
+            if (error.status === 400) {
+                console.log("Validation errors:", error.data);
+            } else if (error.status === 401) {
+                console.log("Unauthorized: Please log in.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
